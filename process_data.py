@@ -67,7 +67,4 @@ def process_data():
     """
     data = BookDataset()
 
-    bob = len(data)
-    item = data[2]
-    bob
 
