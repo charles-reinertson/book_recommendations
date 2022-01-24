@@ -1,0 +1,10 @@
+{
+    "csv_file_books": "data/Books.csv",
+    "csv_file_ratings": "data/Ratings.csv",
+    "csv_file_users": "data/Users.csv",
+    "image_path": "data/images/",
+    "knn_hyperparameters": {
+        "checkpoint": "./checkpoints/knn/",
+        "TODO": "I will fill out this section when I know how knn works better"
+    }
+}
