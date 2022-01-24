@@ -6,7 +6,6 @@ import pandas as pd
 from utils import config
 
 class BookDataset():
-
     def __init__(self):
         """
         Read df_books, df_ratings and df_users, clean df_books, df_ratings and df_users,
