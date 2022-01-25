@@ -29,10 +29,10 @@ class BookDataset():
     
     @staticmethod
     def clean_data(df_books, df_ratings, df_users):
-        # drop rows with any missing data
-        df_books = df_books.dropna()
         # drop the column age because there is 40% missing data
         df_users.drop('Age', axis=1, inplace=True)
+        # drop rows with any missing data
+        df_books = df_books.dropna()
 
         # remove non-numeric items from the column "Year-Of-Publication"
         df_books = df_books[pd.to_numeric(df_books["Year-Of-Publication"], errors='coerce').notnull()]
