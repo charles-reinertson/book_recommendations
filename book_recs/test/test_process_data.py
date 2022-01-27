@@ -1,6 +1,4 @@
-import pandas as pd
+from process_data import BookDataset
 
-if __name__ == '__main__':
-    # This main is only for TESTING
-    df = BookDataset()
-    print(df.head())
+data_object = BookDataset()
+print(data_object[1:10])
