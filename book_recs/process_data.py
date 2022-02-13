@@ -33,7 +33,7 @@ class BookDataset():
         """
         Clean self.df_books, self.df_ratings and self.df_users after their data has been read in by the read_data function
         """
-        self.validate_proper_usage()
+        # self.validate_proper_usage()
         # drop the column age because there is 40% missing data
         self.df_users.drop('Age', axis=1, inplace=True)
         # drop rows with any missing data
@@ -49,11 +49,24 @@ class BookDataset():
         
         return self
 
+    def get_x_y(self, columns_x, column_y):
+        """
+        Return two dataframes. The first of specified x columns and 
+        the second dataframe as a single y column for prediction.
+
+        columns_x: a list of strings of desired columns
+        column_y: a string of column to predict
+        """
+        return self.df[columns_x], self.df[column_y]
+
+
+
+
     def join_data(self):
         """
         Join self.df_books, self.df_ratings and self.df_users.
         """
-        self.validate_proper_usage()
+        # self.validate_proper_usage()
         # Inner join df_book and df_ratings on ISBN
         self.df = pd.merge(self.df_books, self.df_ratings, how="inner", on=["ISBN"])
         # Inner join df_users and the new dataframe on "User-ID"

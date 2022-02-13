@@ -19,4 +19,10 @@ if __name__ == '__main__':
     # STEP 1: PROCESS AND CLEAN THE DATA
     data_object = process_data()
 
-    data_object
+    x_columns = ['ISBN', 'Book-Title', 'Book-Author', 'Year-Of-Publication', 'Publisher', 
+                'Image-URL-S', 'Image-URL-M', 'Image-URL-L', 'User-ID', 'Location']
+
+    x_df, y_df = data_object.get_x_y(x_columns, 'Book-Rating')
+
+    print(x_df.head())
+    print(y_df.head())
