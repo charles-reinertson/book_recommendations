@@ -4,6 +4,7 @@ import numpy as np
 import os
 import sys
 import pandas as pd
+from sklean.model_selection import train_test_split, KFold
 from utils import config
 
 class BookDataset():
@@ -16,6 +17,7 @@ class BookDataset():
         self.df_books = None
         self.df_ratings = None
         self.df_users = None
+        
     
     def read_data(self):
         """
@@ -60,6 +62,23 @@ class BookDataset():
         self._save_memory()
 
         return self
+    
+    def simple_split_data(self, size=0.2):
+        """
+        Perform a simple train-test split on the joined data. Return split data.
+        """
+        return train_test_split(self.df, test_size=size, random_state=42)
+    
+    def KFold_split_data(self, k=10):
+        """
+        Perform k-fold cross validation on the joined data. Return split data.
+        """
+        kf= KFold(n_splits=k, shuffle= False)
+        result = next(kf.split(self.df), None)
+        train= self.df.iloc[result[0]]
+        test= self.df.iloc[result[1]]
+        return train, test
+        
     
     def validate_proper_usage(self):
         """
