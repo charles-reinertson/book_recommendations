@@ -4,7 +4,7 @@ import numpy as np
 import os
 import sys
 import pandas as pd
-from sklean.model_selection import train_test_split, KFold
+from sklearn.model_selection import train_test_split, KFold
 from utils import config
 
 class BookDataset():
