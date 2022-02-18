@@ -24,3 +24,7 @@ class KNN():
     
     def knn_predict(self, X):
         return self.knn.predict(X)
+
+class Matrix_Factorization():
+    def __init__(self, bookData):
+        self.data = bookData
