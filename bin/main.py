@@ -5,24 +5,18 @@ import os
 import sys
 import pandas as pd
 import _mypath
-import book_recs
+from book_recs import RSystem
 
-def process_data():
-    """
-    Read in, join, and clean all relevant book data for knn.
-    Return a pandas dataframe of relevant book data.
-    """
-    bookData = book_recs.BookDataset()
-    return bookData.read_data().clean_data().join_data()
 
 if __name__ == '__main__':
-    # STEP 1: PROCESS AND CLEAN THE DATA
-    data_object = process_data()
-
     x_columns = ['ISBN', 'Book-Title', 'Book-Author', 'Year-Of-Publication', 'Publisher', 
                 'Image-URL-S', 'Image-URL-M', 'Image-URL-L', 'User-ID', 'Location']
+    y_col = 'Book-Rating'
+    # Instantiate a recommender system with specified features, predicted variable, and recommender type.
+    recommender_system = RSystem(x_columns, y_col, clean_data=True, recommender_type='KNN')
+    # add data at the specified data location. Must be formatted like original input data
+    recommender_system.add_data(clean_data=True)
+    # get recommendations for a specific user
+    recommendations = recommender_system.get_recommendations(user_id='5', num_recommendations=10)
 
-    x_df, y_df = data_object.get_x_y(x_columns, 'Book-Rating')
-
-    print(x_df.head())
-    print(y_df.head())
+    print(recommendations)

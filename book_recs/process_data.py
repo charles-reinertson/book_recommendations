@@ -8,46 +8,58 @@ from sklearn.model_selection import train_test_split, KFold
 from utils import config
 
 class BookDataset():
-    def __init__(self):
+    def __init__(self, clean_data=True, new_data=False):
         """
-        Read df_books, df_ratings and df_users, clean df_books, df_ratings and df_users,
+        Read df_books, df_ratings and df_users. Clean df_books, df_ratings and df_users,
         as well as join them on the appropriate features.
         """
-        self.df = None
-        self.df_books = None
-        self.df_ratings = None
-        self.df_users = None
-        
-    
-    def read_data(self):
+        df_books, df_ratings, df_users = self._read_data(new_data)
+        # clean the dataframes if the flag is specified
+        if clean_data:
+            self._clean_data(df_books, df_ratings, df_users)
+        # join df_books, df_ratings and df_users
+        self.df = self._join_data(df_books, df_ratings, df_users)
+
+
+    def _read_data(self, new_data):
         """
         Read in all csv files into a pandas dataframe and return dataframes.
         """
-        self.df_books = pd.read_csv(config('csv_file_books'))
-        self.df_ratings = pd.read_csv(config('csv_file_ratings'))
-        self.df_users = pd.read_csv(config('csv_file_users')) 
+        if not new_data:
+            df_books = pd.read_csv(config('csv_file_books'))
+            df_ratings = pd.read_csv(config('csv_file_ratings'))
+            df_users = pd.read_csv(config('csv_file_users')) 
+        else:
+            df_books = pd.read_csv(config('csv_file_new_books'))
+            df_ratings = pd.read_csv(config('csv_file_new_ratings'))
+            df_users = pd.read_csv(config('csv_file_new_users')) 
 
-        return self
+        return df_books, df_ratings, df_users
     
-    def clean_data(self):
+    def _clean_data(self, df_books, df_ratings, df_users):
         """
         Clean self.df_books, self.df_ratings and self.df_users after their data has been read in by the read_data function
         """
         # self.validate_proper_usage()
         # drop the column age because there is 40% missing data
-        self.df_users.drop('Age', axis=1, inplace=True)
+        df_users.drop('Age', axis=1, inplace=True)
         # drop rows with any missing data
-        self.df_books = self.df_books.dropna()
+        df_books = df_books.dropna()
 
         # remove non-numeric items from the column "Year-Of-Publication"
-        self.df_books = self.df_books[pd.to_numeric(self.df_books["Year-Of-Publication"], errors='coerce').notnull()]
+        df_books = df_books[pd.to_numeric(df_books["Year-Of-Publication"], errors='coerce').notnull()]
         # change "Year-Of-Publication" to numeric
-        self.df_books["Year-Of-Publication"] = pd.to_numeric(self.df_books["Year-Of-Publication"])
+        df_books["Year-Of-Publication"] = pd.to_numeric(df_books["Year-Of-Publication"])
         # only keep rows of dataframe where "Year-Of-Publication" is between 1900 and 2022
-        self.df_books = self.df_books.loc[(self.df_books["Year-Of-Publication"] >= 1900) & 
-                                (self.df_books["Year-Of-Publication"] <= 2022)]
+        df_books = df_books.loc[(df_books["Year-Of-Publication"] >= 1900) & 
+                                    (df_books["Year-Of-Publication"] <= 2022)]
         
-        return self
+
+    def get_dataframe(self):
+        """
+        Return the merged dataframe.
+        """
+        return self.df
 
     def get_x_y(self, columns_x, column_y):
         """
@@ -59,22 +71,33 @@ class BookDataset():
         """
         return self.df[columns_x], self.df[column_y]
 
-
-
-
-    def join_data(self):
+    @staticmethod
+    def _join_data(df_books, df_ratings, df_users):
         """
-        Join self.df_books, self.df_ratings and self.df_users.
+        Join df_books, df_ratings and df_users and return
+        the resulting dataframe.
         """
-        # self.validate_proper_usage()
         # Inner join df_book and df_ratings on ISBN
-        self.df = pd.merge(self.df_books, self.df_ratings, how="inner", on=["ISBN"])
+        df = pd.merge(df_books, df_ratings, how="inner", on=["ISBN"])
         # Inner join df_users and the new dataframe on "User-ID"
-        self.df = pd.merge(self.df, self.df_users, how="inner", on=["User-ID"])
-        self.df.reset_index(drop=True, inplace=True)
-        self._save_memory()
+        df = pd.merge(df, df_users, how="inner", on=["User-ID"])
+        df.reset_index(drop=True, inplace=True)
 
-        return self
+        return df
+
+    def append_data(self, clean_data=True):
+        """
+        Read in, clean (depending on flag), and merge newly added data.
+        Append it to self.df
+        """
+        df_books, df_ratings, df_users = self._read_data(new_data=True)
+        # clean the dataframes if the flag is specified
+        if clean_data:
+            self._clean_data(df_books, df_ratings, df_users)
+        # join df_books, df_ratings and df_users
+        df = self._join_data(df_books, df_ratings, df_users)
+
+        self.df.append(df, ignore_index=True)
     
     def simple_split_data(self, size=0.2):
         """
@@ -91,29 +114,5 @@ class BookDataset():
         train= self.df.iloc[result[0]]
         test= self.df.iloc[result[1]]
         return train, test
-        
-    
-    def validate_proper_usage(self):
-        """
-        Validate that the user has read in the dataframes before calling clean_data or join_data.
-        """
-        # Check that self.df_books, self.df_ratings and self.df_users are not null, else throw error
-        if (self.df_books or self.df_ratings or self.df_users) is None:
-            sys.exit("Must read data first using the function 'read_data'.") 
-    
-    def _save_memory(self):
-        """
-        Remove self.df_books, self.df_ratings and self.df_users after they have been merged.
-        """
-        self.df_books = None
-        self.df_ratings = None
-        self.df_users = None
-
-
-    def __len__(self):
-        return self.df.shape[0]
-
-    def __getitem__(self, idx):
-        return self.df.iloc[idx]
 
 

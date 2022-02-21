@@ -2,9 +2,15 @@
     "csv_file_books": "data/Books.csv",
     "csv_file_ratings": "data/Ratings.csv",
     "csv_file_users": "data/Users.csv",
-    "image_path": "data/images/",
+    "csv_file_new_books": "new_data/Books.csv",
+    "csv_file_new_ratings": "new_data/Ratings.csv",
+    "csv_file_new_users": "new_data/Users.csv",
     "knn_hyperparameters": {
         "checkpoint": "./checkpoints/knn/",
         "TODO": "I will fill out this section when I know how knn works better"
+    },
+    "matrix_fact_hyperparameters": {
+        "checkpoint": "./checkpoints/matrix/",
+        "TODO": "I will fill out this section when I know how matrix factorization works better"
     }
 }
