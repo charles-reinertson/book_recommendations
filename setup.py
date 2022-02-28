@@ -16,7 +16,7 @@ setup(
         packages=find_packages(),
         # add any additional packages that 
         # needs to be installed along with your package
-        install_requires=['matplotlib', 'numpy', 'pandas'], 
+        install_requires=['matplotlib', 'numpy', 'pandas', 'sklearn', 'warnings'], 
         
         keywords=['python', 'book recommendation dataset'],
 )
