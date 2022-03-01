@@ -1,11 +1,11 @@
-import matplotlib
-import matplotlib.pyplot as plt
 from sklearn.neighbors import KNeighborsClassifier
 import numpy as np
 import os
 import sys
 import pandas as pd
 from utils import config
+from scipy.sparse import csr_matrix
+from sklearn.neighbors import NearestNeighbors
 from sklearn.decomposition import TruncatedSVD, NMF
 import warnings
 
@@ -13,24 +13,51 @@ import warnings
 class KNN():
     def __init__(self, bookData):
         self.data = bookData
-        self.knn = None
-        self.nmf = None
-        self.nmf_X = None
+        self.data_pivot = None
+        self.model = None
         
-    def knn_fit(self, neighbors=5):
-        neigh = KNeighborsClassifier(n_neighbors=neighbors)
-        # will need to be updated using function from BookDataset
-        X = self.data.pd.loc[:, self.df.columns != 'Book-Rating']
-        y = self.data.pd.loc[:, 'Book-Rating']
-        neigh.fit(X, y)
-        self.knn = neigh
+    def knn_fit(self):
+        """
+        Fit the KNN model to the dataset.
+        """
+        self._filter_data()
+        self.book_pivot = self.data.pivot_table(columns='User-ID', index='ISBN', values="Book-Rating")
+        self.book_pivot.fillna(0, inplace=True)
+        book_sparse = csr_matrix(self.book_pivot)
+        self.model = NearestNeighbors(algorithm='brute')
+        self.model.fit(book_sparse)
     
-    def knn_predict(self, X):
-        return self.knn.predict(X)
+    def knn_predict(self, book, num_recommendations):
+        """
+        Get the book recommendations based on a provided book.
+
+        book: Specify the ISBN of the book to base recommendations on
+        num_recommendations: Number of recommended book to return
+        """
+        distances, suggestions = self.model.kneighbors(self.book_pivot.loc[book, :].values.reshape(1, -1))
+        recommend = self.data[self.data['ISBN'].isin(self.book_pivot.index[suggestions[0]].values)].drop_duplicates(['ISBN'])
+        recommend = recommend.loc[:, ['ISBN', 'Book-Title', 'Book-Author', 'Year-Of-Publication']]
+        return recommend
+    
+    def _filter_data(self):
+        """
+        Filter the data to only include users who have rated at least 200 books 
+        and books that have at least 10 ratings.
+        """
+        cols = ['Book-Rating', 'ISBN', 'Book-Title', 'Book-Author', 'Year-Of-Publication', 'User-ID']
+        self.data = self.data.get_dataframe().loc[:, cols]
+        users = self.data['User-ID'].value_counts() >= 200
+        users_filt = users[users].index
+        self.data = self.data[self.data['User-ID'].isin(users_filt)]
+        books = self.data['ISBN'].value_counts() >= 10
+        books_filt = books[books].index
+        self.data = self.data[self.data['ISBN'].isin(books_filt)]
 
 class Matrix_Factorization():
     def __init__(self, bookData):
         self.data = bookData
+        self.nmf = None
+        self.nmf_X = None
         
     def  matrix_factorization_fit(self, book_title_inp):
         df_mat = self.data.sample(frac = 0.01)
