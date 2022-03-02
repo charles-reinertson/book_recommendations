@@ -110,9 +110,9 @@ class Matrix_Factorization():
         X_pred = M.dot(Theta.T)             
         X_pred = X_pred.T
         
-        rated_items_df_user = pd.DataFrame(self.nmf_X).iloc[self.user_id_to_num_dict[user_idx], :]                 # get the list of actual ratings of user_idx (seen movies)
-        user_prediction_df_user = pd.DataFrame(X_pred).iloc[self.user_id_to_num_dict[user_idx],:]     # get the list of predicted ratings of user_idx (unseen movies)
-        reco_df = pd.concat([rated_items_df_user, user_prediction_df_user, pd.DataFrame(self.book_title)], axis=1)   # merge both lists with the movie's title
+        rated_items_df_user = pd.DataFrame(self.nmf_X).iloc[self.user_id_to_num_dict[user_idx], :]                
+        user_prediction_df_user = pd.DataFrame(X_pred).iloc[self.user_id_to_num_dict[user_idx],:]    
+        reco_df = pd.concat([rated_items_df_user, user_prediction_df_user, pd.DataFrame(self.book_title)], axis=1)  
         reco_df.columns = ['rating','prediction','title']
         reco_df = reco_df[ reco_df['rating'] == 0 ]
         res= reco_df.sort_values(by='prediction', ascending=False)[:num_recommendations]
