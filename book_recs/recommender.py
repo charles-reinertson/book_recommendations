@@ -12,6 +12,9 @@ import warnings
 
 class KNN():
     def __init__(self, bookData):
+        """
+        bookData: BookDataset object (gets changed to a dataframe object)
+        """
         self.data = bookData
         self.data_pivot = None
         self.model = None
@@ -31,8 +34,10 @@ class KNN():
         """
         Get the book recommendations based on a provided book.
 
-        book: Specify the ISBN of the book to base recommendations on
-        num_recommendations: Number of recommended book to return
+        book: String of the ISBN of the book to base recommendations on
+        num_recommendations: Number of recommended book to return (not implemented)
+        
+        recommend: dataframe of recommended books
         """
         distances, suggestions = self.model.kneighbors(self.book_pivot.loc[book, :].values.reshape(1, -1))
         recommend = self.data[self.data['ISBN'].isin(self.book_pivot.index[suggestions[0]].values)].drop_duplicates(['ISBN'])
