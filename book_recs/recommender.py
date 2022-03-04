@@ -12,6 +12,9 @@ import warnings
 
 class KNN():
     def __init__(self, bookData):
+        """
+        bookData: BookDataset object (gets changed to a dataframe object)
+        """
         self.data = bookData
         self.data_pivot = None
         self.model = None
@@ -31,8 +34,10 @@ class KNN():
         """
         Get the book recommendations based on a provided book.
 
-        book: Specify the ISBN of the book to base recommendations on
-        num_recommendations: Number of recommended book to return
+        book: String of the ISBN of the book to base recommendations on
+        num_recommendations: Number of recommended book to return (not implemented)
+        
+        recommend: dataframe of recommended books
         """
         distances, suggestions = self.model.kneighbors(self.book_pivot.loc[book, :].values.reshape(1, -1))
         recommend = self.data[self.data['ISBN'].isin(self.book_pivot.index[suggestions[0]].values)].drop_duplicates(['ISBN'])
@@ -162,9 +167,9 @@ class Matrix_Factorization():
         X_pred = M.dot(Theta.T)             
         X_pred = X_pred.T
         
-        rated_items_df_user = pd.DataFrame(self.nmf_X).iloc[self.user_id_to_num_dict[user_idx], :]                 # get the list of actual ratings of user_idx (seen movies)
-        user_prediction_df_user = pd.DataFrame(X_pred).iloc[self.user_id_to_num_dict[user_idx],:]     # get the list of predicted ratings of user_idx (unseen movies)
-        reco_df = pd.concat([rated_items_df_user, user_prediction_df_user, pd.DataFrame(self.book_title)], axis=1)   # merge both lists with the movie's title
+        rated_items_df_user = pd.DataFrame(self.nmf_X).iloc[self.user_id_to_num_dict[user_idx], :]                
+        user_prediction_df_user = pd.DataFrame(X_pred).iloc[self.user_id_to_num_dict[user_idx],:]    
+        reco_df = pd.concat([rated_items_df_user, user_prediction_df_user, pd.DataFrame(self.book_title)], axis=1)  
         reco_df.columns = ['rating','prediction','title']
         reco_df = reco_df[ reco_df['rating'] == 0 ]
         res= reco_df.sort_values(by='prediction', ascending=False)[:num_recommendations]
