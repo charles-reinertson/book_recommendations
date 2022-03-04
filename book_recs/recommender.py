@@ -56,6 +56,21 @@ class KNN():
 class Matrix_Factorization():
     
     def __init__(self, bookData):
+        """
+
+        Parameters
+        ----------
+        bookData : TYPE
+        
+        Description
+        ----------
+        Initialize with bookDataset object.
+
+        Returns
+        -------
+        None.
+
+        """
         self.data = bookData
         self.nmf = None
         self.nmf_X = None
@@ -64,8 +79,15 @@ class Matrix_Factorization():
         
     def _filter_data(self):
         """
+        Description
+        ----------
         Filter the data to only include users who have rated at least 200 books 
         and books that have at least 10 ratings.
+        
+        Returns
+        -------
+        None.
+
         """
         users = self.data['User-ID'].value_counts() >= 200
         users_filt = users[users].index
@@ -75,6 +97,16 @@ class Matrix_Factorization():
         self.data = self.data[self.data['ISBN'].isin(books_filt)]   
         
     def  matrix_factorization_fit(self):
+        """
+        Description
+        ----------
+        Clean data, convert to sparse matrix of User-ID, Book-Title and Book-Rating. Fit a model on this data.
+
+        Returns
+        -------
+        None.
+
+        """
         
         self._filter_data()
         df_mat = self.data.sample(frac = 0.3)
@@ -97,14 +129,34 @@ class Matrix_Factorization():
             user_id_to_num_dict[item]= i
         self.user_id_to_num_dict = user_id_to_num_dict
         X = book_user_rating_pivot.values
-        SVD = TruncatedSVD(n_components=12, random_state=17)
-        matrix = SVD.fit_transform(X)
+        # SVD = TruncatedSVD(n_components=12, random_state=17)
+        # matrix = SVD.fit_transform(X)
         nmf_model = NMF(n_components=20)
         self.nmf = nmf_model
-        self.nmf_X = X #or should i return?
+        self.nmf_X = X 
         self.nmf_model.fit(self.X)
         
     def matrix_factorization_predict(self, user_idx, num_recommendations):
+        """
+        
+
+        Parameters
+        ----------
+        user_idx : int
+            Input User-ID to get recommendations.
+        num_recommendations : int
+            Number of recommendations returned to the user.
+            
+        Description
+        ----------
+        Predict recommendations for a user.
+        
+        Returns
+        -------
+        bookrecs: list
+            List of generated recommendations.
+
+        """
         Theta = self.nmf_model.transform(self.nmf_X)       
         M = self.nmf_model.components_.T         
         X_pred = M.dot(Theta.T)             
