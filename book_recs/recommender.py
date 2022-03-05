@@ -109,8 +109,8 @@ class Matrix_Factorization(System):
 
         """
         df_mat = self.data.sample(frac = 0.3)
-        df_mat= df_mat.drop(columns= ['Image-URL-S', 'Image-URL-M', 'Image-URL-L', 'Location'])
-        df_mat = df_mat.dropna(axis = 0, subset = ['Book-Title'])
+        # df_mat= df_mat.drop(columns= ['Image-URL-S', 'Image-URL-M', 'Image-URL-L', 'Location'])
+        # df_mat = df_mat.dropna(axis = 0, subset = ['Book-Title'])
         df_mat_ratingCount = (df_mat.
              groupby(by = ['Book-Title'])['Book-Rating'].
              count().
@@ -133,7 +133,7 @@ class Matrix_Factorization(System):
         nmf_model = NMF(n_components=20)
         self.nmf = nmf_model
         self.nmf_X = X 
-        self.nmf_model.fit(self.X)
+        self.nmf.fit(self.nmf_X)
         
     def predict(self, user_idx, num_recommendations):
         """
@@ -156,8 +156,8 @@ class Matrix_Factorization(System):
             List of generated recommendations.
 
         """
-        Theta = self.nmf_model.transform(self.nmf_X)       
-        M = self.nmf_model.components_.T         
+        Theta = self.nmf.transform(self.nmf_X)       
+        M = self.nmf.components_.T         
         X_pred = M.dot(Theta.T)             
         X_pred = X_pred.T
         
