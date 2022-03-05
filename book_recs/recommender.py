@@ -18,7 +18,7 @@ class System():
         "Interface for fitting the recommender system"
         pass
 
-    def predict(self):
+    def predict(self, user_input, num_recommendations):
         "Interface for predicting from the recommender system"
         pass
 

@@ -9,7 +9,7 @@ class RSystem(object):
 
         clean_data: flag for whether the user wants us to clean his data for him or if it
                     is pre-cleaned
-        recommender_type: if similar_book then get book recommendations based on a provided book. 
+        recommender_type: if similar_book then get book recommendations based on a provided similar book. 
                           If similar_user then get book recommendations based on similar users.
         """
         assert(recommender_type == 'similar_book' or recommender_type == 'similar_user')
