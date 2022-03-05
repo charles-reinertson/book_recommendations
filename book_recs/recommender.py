@@ -9,41 +9,20 @@ from sklearn.neighbors import NearestNeighbors
 from sklearn.decomposition import TruncatedSVD, NMF
 import warnings
 
-
-class KNN():
+class System():
     def __init__(self, bookData):
-        """
-        bookData: BookDataset object (gets changed to a dataframe object)
-        """
         self.data = bookData
-        self.data_pivot = None
-        self.model = None
-        
-    def knn_fit(self):
-        """
-        Fit the KNN model to the dataset.
-        """
         self._filter_data()
-        self.book_pivot = self.data.pivot_table(columns='User-ID', index='ISBN', values="Book-Rating")
-        self.book_pivot.fillna(0, inplace=True)
-        book_sparse = csr_matrix(self.book_pivot)
-        self.model = NearestNeighbors(algorithm='brute')
-        self.model.fit(book_sparse)
-    
-    def knn_predict(self, book, num_recommendations):
-        """
-        Get the book recommendations based on a provided book.
 
-        book: String of the ISBN of the book to base recommendations on
-        num_recommendations: Number of recommended book to return (not implemented)
-        
-        recommend: dataframe of recommended books
-        """
-        distances, suggestions = self.model.kneighbors(self.book_pivot.loc[book, :].values.reshape(1, -1))
-        recommend = self.data[self.data['ISBN'].isin(self.book_pivot.index[suggestions[0]].values)].drop_duplicates(['ISBN'])
-        recommend = recommend.loc[:, ['ISBN', 'Book-Title', 'Book-Author', 'Year-Of-Publication']]
-        return recommend
-    
+    def fit(self):
+        "Interface for fitting the recommender system"
+        pass
+
+    def predict(self):
+        "Interface for predicting from the recommender system"
+        pass
+
+
     def _filter_data(self):
         """
         Filter the data to only include users who have rated at least 200 books 
@@ -58,7 +37,41 @@ class KNN():
         books_filt = books[books].index
         self.data = self.data[self.data['ISBN'].isin(books_filt)]
 
-class Matrix_Factorization():
+class KNN(System):
+    def __init__(self, bookData):
+        """
+        bookData: BookDataset object (gets changed to a dataframe object)
+        """
+        super().__init__(bookData)
+
+        self.data_pivot = None
+        self.model = None
+        
+    def fit(self):
+        """
+        Fit the KNN model to the dataset.
+        """
+        self.book_pivot = self.data.pivot_table(columns='User-ID', index='ISBN', values="Book-Rating")
+        self.book_pivot.fillna(0, inplace=True)
+        book_sparse = csr_matrix(self.book_pivot)
+        self.model = NearestNeighbors(algorithm='brute')
+        self.model.fit(book_sparse)
+    
+    def predict(self, book, num_recommendations):
+        """
+        Get the book recommendations based on a provided book.
+
+        book: String of the ISBN of the book to base recommendations on
+        num_recommendations: Number of recommended book to return (not implemented)
+        
+        recommend: dataframe of recommended books
+        """
+        distances, suggestions = self.model.kneighbors(self.book_pivot.loc[book, :].values.reshape(1, -1))
+        recommend = self.data[self.data['ISBN'].isin(self.book_pivot.index[suggestions[0]].values)].drop_duplicates(['ISBN'])
+        recommend = recommend.loc[:, ['ISBN', 'Book-Title', 'Book-Author', 'Year-Of-Publication']]
+        return recommend
+
+class Matrix_Factorization(System):
     
     def __init__(self, bookData):
         """
@@ -76,32 +89,15 @@ class Matrix_Factorization():
         None.
 
         """
-        self.data = bookData
+        super().__init__(bookData)
+
         self.nmf = None
         self.nmf_X = None
         self.user_id_to_num_dict = {}
         self.book_title = None
         
-    def _filter_data(self):
-        """
-        Description
-        ----------
-        Filter the data to only include users who have rated at least 200 books 
-        and books that have at least 10 ratings.
         
-        Returns
-        -------
-        None.
-
-        """
-        users = self.data['User-ID'].value_counts() >= 200
-        users_filt = users[users].index
-        self.data = self.data[self.data['User-ID'].isin(users_filt)]
-        books = self.data['ISBN'].value_counts() >= 10
-        books_filt = books[books].index
-        self.data = self.data[self.data['ISBN'].isin(books_filt)]   
-        
-    def  matrix_factorization_fit(self):
+    def fit(self):
         """
         Description
         ----------
@@ -112,8 +108,6 @@ class Matrix_Factorization():
         None.
 
         """
-        
-        self._filter_data()
         df_mat = self.data.sample(frac = 0.3)
         df_mat= df_mat.drop(columns= ['Image-URL-S', 'Image-URL-M', 'Image-URL-L', 'Location'])
         df_mat = df_mat.dropna(axis = 0, subset = ['Book-Title'])
@@ -141,7 +135,7 @@ class Matrix_Factorization():
         self.nmf_X = X 
         self.nmf_model.fit(self.X)
         
-    def matrix_factorization_predict(self, user_idx, num_recommendations):
+    def predict(self, user_idx, num_recommendations):
         """
         
 
