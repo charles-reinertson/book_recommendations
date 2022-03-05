@@ -1,14 +1,3 @@
-import matplotlib
-import matplotlib.pyplot as plt
-import numpy as np
-import os
-import sys
-import pandas as pd
-import pandas as pd
-from sklearn.model_selection import train_test_split, KFold
-from sklearn.neighbors import KNeighborsClassifier
-from book_recs.recommender import System
-
 from process_data import BookDataset
 from recommender import KNN, Matrix_Factorization
 from utils import config

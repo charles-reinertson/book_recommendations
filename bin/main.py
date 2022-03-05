@@ -15,6 +15,6 @@ if __name__ == '__main__':
     # add data at the specified data location. Must be formatted like original input data
     recommender_system.add_data(clean_data=True)
     # get recommendations for a specific user
-    recommendations = recommender_system.get_recommendations('Classical Mythology', num_recommendations=10)
+    recommendations = recommender_system.get_recommendations('0195153448', num_recommendations=10)
 
     print(recommendations)
