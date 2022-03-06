@@ -36,6 +36,8 @@ def isbn_incorrect():
     return '0609804618'
 isbn_incorrect = '0609804618'
 
+def test_knn_filtered():
+    assert min(knn.data['ISBN'].value_counts()) >= 10
 
 def test_knn_fit_attributes_exist():
     assert knn_fit.data_pivot.empty == False
