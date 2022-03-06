@@ -167,7 +167,8 @@ class Matrix_Factorization(System):
         reco_df.columns = ['rating','prediction','title']
         reco_df = reco_df[ reco_df['rating'] == 0 ]
         res= reco_df.sort_values(by='prediction', ascending=False)[:num_recommendations]
-        return list(res['title'])
+        return self.data[self.data['Book-Title'].isin(list(res['title']))].loc[:, ['ISBN', 'Book-Title', 'Book-Author', 'Year-Of-Publication']].drop_duplicates(subset=['Book-Title'])
+
 
         
         
