@@ -1,6 +1,6 @@
 import _mypath
 from process_data import BookDataset
-from recommender import KNN
+from recommender import KNN, System
 import pytest
 
 @pytest.fixture
@@ -29,9 +29,9 @@ def isbn_incorrect():
     return '0609804618'
 
 
-def test_knn_filtered(knn):
-    assert min(knn.data['User-ID'].value_counts()) >= 200
-    assert min(knn.data['ISBN'].value_counts()) >= 10
+
+assert min(KNN(bookData=BookDataset(clean_data=True)).data['User-ID'].value_counts()) >= 200
+assert min(KNN(bookData=book_data).data['ISBN'].value_counts()) >= 10
 
 def test_knn_fit_attributes_exist(knn_fit):
     assert knn_fit.data_pivot != None
