@@ -36,6 +36,7 @@ scipy >= 1.7.3\
 scikit-learn >= 1.0.2
 ## Structure
 This package has the following structure.\
+```
 book_recommendations\
   |- bin\
      |- _mypath.py
@@ -68,7 +69,7 @@ book_recommendations\
   |- README.md\
   |- config.json\
   |- setup.py\
- 
+```
 ## Installation
 pip install betas
 ## Usage
