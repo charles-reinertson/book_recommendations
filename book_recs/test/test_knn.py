@@ -9,14 +9,14 @@ def book_data():
     return BookDataset(clean_data=True)
 
 @pytest.fixture
-def knn():
+def knn(book_data):
     '''Returns a KNN instance'''
-    return KNN(bookData=book_data())
+    return KNN(bookData=book_data)
 
 @pytest.fixture
-def knn_fit():
+def knn_fit(book_data):
     '''Returns a fitted KNN instance'''
-    return KNN(bookData=book_data()).fit()
+    return KNN(bookData=book_data).fit()
 
 @pytest.fixture
 def isbn_correct():
