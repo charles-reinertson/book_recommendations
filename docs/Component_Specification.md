@@ -16,7 +16,11 @@ A wrapper class that uses Matrix Factorization (NMF) to get a list of book recom
 
 ## System
 Input: dataset\
-Integrates the recommenders and datasets into a single interface for operation (class RSystem). Here are instructions for how a web developer would interact with the interface...
+Integrates the recommenders and datasets into a single interface for operation (class RSystem). Here are instructions for how a web developer would interact with the interface.
+
+## Sample Implementation
+Input: recommender_type
+Includes code that loads data, builds models and provides recommendations depending on recommendation preference (similar_user or similar_book)
 
 ### STEP 1:
 From the book_recs library import the RSystem class\
