@@ -64,12 +64,12 @@ class KNN(System):
         book: String of the ISBN of the book to base recommendations on
         num_recommendations: Number of recommended book to return (not implemented)
         
-        recommend: dataframe of recommended books
+        recommend: list of recommended book titles
         """
         distances, suggestions = self.model.kneighbors(self.book_pivot.loc[book, :].values.reshape(1, -1))
         recommend = self.data[self.data['ISBN'].isin(self.book_pivot.index[suggestions[0]].values)].drop_duplicates(['ISBN'])
         recommend = recommend.loc[:, ['ISBN', 'Book-Title', 'Book-Author', 'Year-Of-Publication']]
-        return recommend
+        return list(recommend["Book-Title"])
 
 class Matrix_Factorization(System):
     
