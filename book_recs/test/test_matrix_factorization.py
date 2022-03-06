@@ -26,13 +26,13 @@ nmf_fit.fit()
 
 @pytest.fixture
 def user_correct():
-    '''Returns a User of an ISBN in the dataset with more than 200 reviews'''
+    '''Returns a user in the dataset with more than 200 reviews'''
     return '0451202856'
 user_correct = 16795
 
 @pytest.fixture
 def user_incorrect():
-    '''Returns a string of an ISBN in the dataset with less than 10 reviews'''
+    '''Returns a user in the dataset with less than 10 reviews'''
     return '1'
 user_incorrect = 1
 
