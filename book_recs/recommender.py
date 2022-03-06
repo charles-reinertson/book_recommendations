@@ -71,6 +71,7 @@ class KNN(System):
         recommend = recommend.loc[:, ['ISBN', 'Book-Title', 'Book-Author', 'Year-Of-Publication']]
         return list(recommend["Book-Title"])
 
+
 class Matrix_Factorization(System):
     
     def __init__(self, bookData):
@@ -93,9 +94,7 @@ class Matrix_Factorization(System):
 
         self.nmf = None
         self.nmf_X = None
-        self.user_id_to_num_dict = {}
-        self.book_title = None
-        
+        self.user_id_to_num_dict = {}        
         
     def fit(self):
         """
@@ -161,21 +160,15 @@ class Matrix_Factorization(System):
         X_pred = M.dot(Theta.T)             
         X_pred = X_pred.T
         
-        rated_items_df_user = pd.DataFrame(self.nmf_X).iloc[self.user_id_to_num_dict[user_idx], :]                
+        rated_items_df_user = pd.DataFrame(self.nmf_X).iloc[self.user_id_to_num_dict[user_idx],:]                
         user_prediction_df_user = pd.DataFrame(X_pred).iloc[self.user_id_to_num_dict[user_idx],:]    
-        reco_df = pd.concat([rated_items_df_user, user_prediction_df_user, pd.DataFrame(self.book_title)], axis=1)  
+        reco_df = pd.concat([rated_items_df_user, user_prediction_df_user, pd.DataFrame(self.data['Book-Title'])], axis=1)  
+        reco_df = reco_df.dropna()
         reco_df.columns = ['rating','prediction','title']
         reco_df = reco_df[ reco_df['rating'] == 0 ]
         res= reco_df.sort_values(by='prediction', ascending=False)[:num_recommendations]
         return list(res['title'])
 
-        
-        
-        
-        
-        
-        
-        
         
         
         
