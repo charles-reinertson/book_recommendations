@@ -35,7 +35,7 @@ setuptools >= 60.5.0\
 scipy >= 1.7.3\
 scikit-learn >= 1.0.2
 ## Structure
-This package has the following structure.\
+This package has the following structure.
 ```
 book_recommendations/
   |- bin/
