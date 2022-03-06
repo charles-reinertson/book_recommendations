@@ -1,7 +1,7 @@
 # Component Specification
 ## Process Data
 Input: dataset\
-Creates a class (BookDataset) for the dataset with various operations. Includes methods to read, clean, split and return the dataset. 
+Creates a class (BookDataset) for the dataset with various operations. Includes methods to read, clean, split and return the dataset as well as add new data. 
 
 ## Recommender
 * System\
