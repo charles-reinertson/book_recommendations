@@ -18,7 +18,7 @@ A wrapper class that uses Matrix Factorization (NMF) to get a list of book recom
 Input: dataset\
 Integrates the recommenders and datasets into a single interface for operation (class RSystem). Here are instructions for how a web developer would interact with the interface...
 
-Step 1: From the book_recs library import the RSystem class
+Step 1: From the book_recs library import the RSystem class \
 STEP 2: Create a config.json file (copy example screenshot) that contains the locations of the three csv files that are formatted exactly as the Kaggle dataset format. These are the csv files which the recommendation system will be built on. You may modify the "csv_file_new_books", "csv_file_new_ratings" and "csv_file_new_users" to hold the location of new data to be appended on to the existing recommendation system data (see step 3).
 STEP 2: Instantiate a recommender system with specified features. Choose auto-clean by setting the flag clean_data=True or turn it off with clean_data=False. The recommender_type flag determines if the user wants to have a system that retrieves books based on similar books or a system that retrieves similar books based on books like users have read. recommender_type='similar_user' or recommender_type=’similar_book’
 STEP 3:  Use the recommender system object to call the add_data function. The new data is located in a folder specified in your config.json file. The new data must be in the same format as the Kaggle book dataset data. There is a flag clean_data that can be set to true if the user wants the data auto-cleaned.
