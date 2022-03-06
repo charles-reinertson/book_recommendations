@@ -130,9 +130,9 @@ class Matrix_Factorization(System):
         # SVD = TruncatedSVD(n_components=12, random_state=17)
         # matrix = SVD.fit_transform(X)
         nmf_model = NMF(n_components=20)
-        self.nmf = nmf_model
+        self.model = nmf_model
         self.nmf_X = X 
-        self.nmf.fit(self.nmf_X)
+        self.model.fit(self.nmf_X)
         
     def predict(self, user_idx, num_recommendations):
         """
@@ -155,8 +155,8 @@ class Matrix_Factorization(System):
             List of generated recommendations.
 
         """
-        Theta = self.nmf.transform(self.nmf_X)       
-        M = self.nmf.components_.T         
+        Theta = self.model.transform(self.nmf_X)       
+        M = self.model.components_.T         
         X_pred = M.dot(Theta.T)             
         X_pred = X_pred.T
         
