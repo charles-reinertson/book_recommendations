@@ -34,7 +34,8 @@ class RSystem(object):
         """
         Get the book recommendations for a specific user.
 
-        user_id: Specify the desired user to recieve their recommendations
+        user_input: Specify the desired user (if similar user)  or desired book ISBN
+        (if similar book) to recieve their recommendations
         num_recommendations: Number of recommended book to return
         """
         predictions = self.system.predict(user_input, num_recommendations)
