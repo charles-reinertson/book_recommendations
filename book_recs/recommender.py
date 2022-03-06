@@ -51,9 +51,9 @@ class KNN(System):
         """
         Fit the KNN model to the dataset.
         """
-        self.book_pivot = self.data.pivot_table(columns='User-ID', index='ISBN', values="Book-Rating")
-        self.book_pivot.fillna(0, inplace=True)
-        book_sparse = csr_matrix(self.book_pivot)
+        self.data_pivot = self.data.pivot_table(columns='User-ID', index='ISBN', values="Book-Rating")
+        self.data_pivot.fillna(0, inplace=True)
+        book_sparse = csr_matrix(self.data_pivot)
         self.model = NearestNeighbors(algorithm='brute')
         self.model.fit(book_sparse)
     
@@ -66,8 +66,8 @@ class KNN(System):
         
         recommend: Dataframe of recommended book titles, ISBN, book author, and year of publication
         """
-        distances, suggestions = self.model.kneighbors(self.book_pivot.loc[book, :].values.reshape(1, -1))
-        recommend = self.data[self.data['ISBN'].isin(self.book_pivot.index[suggestions[0]].values)].drop_duplicates(['ISBN'])
+        distances, suggestions = self.model.kneighbors(self.data_pivot.loc[book, :].values.reshape(1, -1))
+        recommend = self.data[self.data['ISBN'].isin(self.data_pivot.index[suggestions[0]].values)].drop_duplicates(['ISBN'])
         recommend = recommend.loc[:, ['ISBN', 'Book-Title', 'Book-Author', 'Year-Of-Publication']]
         return recommend
 
