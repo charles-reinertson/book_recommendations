@@ -1,6 +1,7 @@
 from process_data import BookDataset
 from recommender import KNN, Matrix_Factorization
 from utils import config
+import copy
 
 class RSystem(object):
     def __init__(self, clean_data=True, recommender_type='similar_book'):
@@ -47,9 +48,9 @@ class RSystem(object):
         Train our data on either KNN or Matrix factorization recommender system.
         """
         if self.recommender_type == 'similar_book':
-            self.system = KNN(self.data_object)
+            self.system = KNN(copy.deepcopy(self.data_object))
         else:
-            self.system = Matrix_Factorization(self.data_object)
+            self.system = Matrix_Factorization(copy.deepcopy(self.data_object))
         
         self.system.fit()
 
