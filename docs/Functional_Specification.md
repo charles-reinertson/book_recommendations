@@ -1,4 +1,4 @@
-# Functional Specifications
+# Functional Specification
 
 ## Background
 A recommendation engine is a type of machine learning which offers relevant suggestions to customers. It finds applications in various sectors such as e-commerce, media and entertainment (ex. Netflix, Amazon). 
