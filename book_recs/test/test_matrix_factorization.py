@@ -41,8 +41,8 @@ def test_nmf_filtered():
     assert min(nmf.data['ISBN'].value_counts()) >= 10
 
 def test_nmf_fit_attributes_exist():
-    assert nmf_fit.model() != None
-    assert nmf_fit.nmf_X() != None
+    assert nmf_fit.model != None
+    assert nmf_fit.nmf_X != None
 
 
 def test_predict_does_not_raise_error():
