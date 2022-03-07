@@ -4,24 +4,24 @@ from recommender import KNN
 from system import RSystem
 import pytest
 
-@pytest.fixture
-def book_data():
-    '''Returns a BookDataset instance with clean data'''
-    return BookDataset(clean_data=True)
+# @pytest.fixture
+# def book_data():
+#     '''Returns a BookDataset instance with clean data'''
+#     return BookDataset(clean_data=True)
 book_data = BookDataset(clean_data=True)
 
-@pytest.fixture
-def knn(book_data):
-    '''Returns a KNN instance'''
-    return KNN(bookData=book_data)
-knn = KNN(bookData=BookDataset(clean_data=True))
+# @pytest.fixture
+# def knn(book_data):
+#     '''Returns a KNN instance'''
+#     return KNN(bookData=book_data)
+knn = KNN(bookData=book_data)
 
-@pytest.fixture
-def knn_fit(book_data):
-    '''Returns a fitted KNN instance'''
-    knn_fit = KNN(bookData=book_data)
-    knn_fit.fit()
-    return knn_fit
+# @pytest.fixture
+# def knn_fit(book_data):
+#     '''Returns a fitted KNN instance'''
+#     knn_fit = KNN(bookData=book_data)
+#     knn_fit.fit()
+#     return knn_fit
 knn_fit = KNN(bookData=book_data)
 knn_fit.fit()
 
