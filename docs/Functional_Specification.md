@@ -17,10 +17,10 @@ Consequently, books are ideal candidates for recommendation system, by the natur
 Kaggle: [Books dataset](https://www.kaggle.com/rounakbanik/the-movies-dataset?select=movies_metadata.csv)
 
 ## Use cases
-1. Content-based: get recommendations based on a book
-User: Input the ISBN and number of desired recommendations to the recommendation system. 
+1. Content-based: get recommendations based on a book\
+User: Input the ISBN and number of desired recommendations to the recommendation system. \
 System: Instantiate a KNN recommendation system. Pre-process data, build a KNN model and return a dataframe of predictions of books similar to the ISBN of the input book.
-2. Collaborative: get recommendations based on a user
-User: Input the User ID and number of desired recommendations to the recommendation system. 
+2. Collaborative: get recommendations based on a user\
+User: Input the User ID and number of desired recommendations to the recommendation system. \
 System: Instantiate a Matrix Factorization recommendation system. Pre-process data, build a Matrix Factorization model and return a dataframe of predictions of books based on users similar to that of the input user.
 
