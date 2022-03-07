@@ -14,7 +14,7 @@ class BookDataset():
         df_books, df_ratings, df_users = self._read_data(new_data)
         # clean the dataframes if the flag is specified
         if clean_data:
-            self._clean_data(df_books, df_ratings, df_users)
+            df_books, df_ratings, df_users = self._clean_data(df_books, df_ratings, df_users)
         # join df_books, df_ratings and df_users
         self.df = self._join_data(df_books, df_ratings, df_users)
 
@@ -37,6 +37,8 @@ class BookDataset():
     def _clean_data(self, df_books, df_ratings, df_users):
         """
         Clean self.df_books, self.df_ratings and self.df_users after their data has been read in by the read_data function
+
+        Return df_books, df_ratings, df_users
         """
         # self.validate_proper_usage()
         # drop the column age because there is 40% missing data
@@ -51,6 +53,7 @@ class BookDataset():
         # only keep rows of dataframe where "Year-Of-Publication" is between 1900 and 2022
         df_books = df_books.loc[(df_books["Year-Of-Publication"] >= 1900) & 
                                     (df_books["Year-Of-Publication"] <= 2022)]
+        return df_books, df_ratings, df_users
         
 
     def get_dataframe(self):
@@ -95,11 +98,11 @@ class BookDataset():
         df_books, df_ratings, df_users = self._read_data(new_data=True)
         # clean the dataframes if the flag is specified
         if clean_data:
-            self._clean_data(df_books, df_ratings, df_users)
+            df_books, df_ratings, df_users = self._clean_data(df_books, df_ratings, df_users)
         # join df_books, df_ratings and df_users
         df = self._join_data(df_books, df_ratings, df_users)
 
-        self.df.append(df, ignore_index=True)
+        self.df = self.df.append(df, ignore_index=True)
     
     def simple_split_data(self, size=0.2):
         """

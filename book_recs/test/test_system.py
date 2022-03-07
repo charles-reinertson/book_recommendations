@@ -40,6 +40,6 @@ def test_add_data_sim_user(system_similar_user):
 
 def test_get_recommendations_sim_user(system_similar_user):
     
-    recs = system_similar_user.get_recommendations(12432, 10)
+    recs = system_similar_user.get_recommendations(16795, 5)
     assert isinstance(recs, pd.DataFrame)
-    assert len(recs) == 10
+    assert len(recs) == 5

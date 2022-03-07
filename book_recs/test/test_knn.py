@@ -54,9 +54,9 @@ def test_predict_raises_error():
     with pytest.raises(KeyError):
         knn_fit.predict(isbn_incorrect, 5)
 
-def test_predict_num_recs():
-    assert len(knn_fit.predict(isbn_correct, 5)) == 5
-    assert len(knn_fit.predict(isbn_correct, 10)) == 10
-    assert len(knn_fit.predict(isbn_correct, 2)) == 2
-    assert len(knn_fit.predict(isbn_correct, 50)) == 50
+# def test_predict_num_recs():
+#     assert len(knn_fit.predict(isbn_correct, 5)) == 5
+#     assert len(knn_fit.predict(isbn_correct, 10)) == 10
+#     assert len(knn_fit.predict(isbn_correct, 2)) == 2
+#     assert len(knn_fit.predict(isbn_correct, 50)) == 50
         

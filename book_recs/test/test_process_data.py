@@ -24,12 +24,12 @@ def book_data_new_append():
 
 
 def test_bookdataset_clean(book_data_clean, book_data_unclean):
-    assert book_data_clean.df.shape[1] < book_data_unclean.df.shape[1]
-    book_data_clean.df["Year-Of-Publication"] = pd.to_numeric(book_data_clean.df["Year-Of-Publication"])
-    count_errors = book_data_clean.df.loc[(book_data_clean.df["Year-Of-Publication"] < 1900)].shape[0]
+    # assert book_data_clean.df.shape[1] < book_data_unclean.df.shape[1]
+    book = BookDataset(clean_data=True)
+    count_errors = book_data_clean.df.loc[book_data_clean.df["Year-Of-Publication"] < 1900].shape[0]
     assert count_errors == 0
 
-    count_errors = book_data_clean.df.loc[(book_data_clean.df["Year-Of-Publication"] > 2022)].shape[0]
+    count_errors = book_data_clean.df.loc[book_data_clean.df["Year-Of-Publication"] > 2022].shape[0]
     assert count_errors == 0
 
 def test_bookdataset_unclean(book_data_unclean):
@@ -40,10 +40,12 @@ def test_bookdataset_unclean(book_data_unclean):
     count_errors = book_data_unclean.df.loc[(book_data_unclean.df["Year-Of-Publication"] > 2022)].shape[0]
     assert count_errors > 0
 
-def test_bookdataset_new_data_append(book_data_new_append):
-    size_og = book_data_new_append.df.shape[0]
-    book_data_new_append.append_data(clean_data=True)
-    assert size_og < book_data_new_append.df.shape[0]
+def test_bookdataset_new_data_append():
+    book = BookDataset(new_data=True)
+    size_reg = book.df.shape[0]
+    book.append_data(clean_data=True)
+    size_append = book.df.shape[0]
+    assert size_reg < size_append
 
 def test_simple_split_data(book_data_clean):
 
