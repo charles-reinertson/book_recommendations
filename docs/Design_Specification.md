@@ -1,4 +1,4 @@
-# Design Specifications
+# Design Specification
 
 ![](design_specification.png)
 
