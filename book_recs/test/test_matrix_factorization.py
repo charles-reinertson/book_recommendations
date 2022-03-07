@@ -42,11 +42,9 @@ def test_nmf_filtered():
     assert min(nmf.data['ISBN'].value_counts()) >= 10
 
 def test_nmf_fit_attributes_exist():
-    try:
-        assert nmf_fit.model != None
-        assert nmf_fit.nmf_X != None
-    except ValueError:
-        assert True
+    assert isinstance(nmf_fit.model, type(None)) == False
+    assert isinstance(nmf_fit.model, type(None)) == False
+
 
 
 def test_predict_does_not_raise_error():
