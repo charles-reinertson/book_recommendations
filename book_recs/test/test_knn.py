@@ -1,6 +1,7 @@
 import _mypath
 from process_data import BookDataset
-from recommender import KNN, System
+from recommender import KNN
+from system import RSystem
 import pytest
 
 @pytest.fixture
