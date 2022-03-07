@@ -9,7 +9,7 @@ from sklearn.neighbors import NearestNeighbors
 from sklearn.decomposition import TruncatedSVD, NMF
 import warnings
 
-class System():
+class System(object):
     def __init__(self, bookData):
         self.data = bookData
         self._filter_data()
