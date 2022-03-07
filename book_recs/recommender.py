@@ -92,7 +92,7 @@ class Matrix_Factorization(System):
         """
         super().__init__(bookData)
 
-        self.nmf = None
+        self.model = None
         self.nmf_X = None
         self.user_id_to_num_dict = {}        
         
