@@ -8,13 +8,11 @@ import pytest
 # def book_data():
 #     '''Returns a BookDataset instance with clean data'''
 #     return BookDataset(clean_data=True)
-book_data = BookDataset(clean_data=True)
 
 # @pytest.fixture
 # def knn(book_data):
 #     '''Returns a KNN instance'''
 #     return KNN(bookData=book_data)
-knn = KNN(bookData=book_data)
 
 # @pytest.fixture
 # def knn_fit(book_data):
@@ -22,8 +20,6 @@ knn = KNN(bookData=book_data)
 #     knn_fit = KNN(bookData=book_data)
 #     knn_fit.fit()
 #     return knn_fit
-knn_fit = KNN(bookData=book_data)
-knn_fit.fit()
 
 @pytest.fixture
 def isbn_correct():
@@ -38,9 +34,14 @@ def isbn_incorrect():
 isbn_incorrect = '0609804618'
 
 def test_knn_filtered():
+    book_data = BookDataset(clean_data=True)
+    knn = KNN(bookData=book_data)
     assert min(knn.data['ISBN'].value_counts()) >= 10
 
 def test_knn_fit_attributes_exist():
+    book_data = BookDataset(clean_data=True)
+    knn_fit = KNN(bookData=book_data)
+    knn_fit.fit()
     assert knn_fit.data_pivot.empty == False
     assert knn_fit.model != None
 
@@ -49,6 +50,9 @@ def test_predict_does_not_raise_error():
     #     knn_fit.predict(isbn_correct, 5)
     # except KeyError as exc:
     #     assert False, f"ISBN '0451202856' raised an exception {exc}"
+    book_data = BookDataset(clean_data=True)
+    knn_fit = KNN(bookData=book_data)
+    knn_fit.fit()
     df = knn_fit.predict(isbn_correct, 5)
     assert df.shape[0] == 5
         
