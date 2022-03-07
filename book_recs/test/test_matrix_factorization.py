@@ -3,53 +3,61 @@ from process_data import BookDataset
 from recommender import Matrix_Factorization
 import pytest
 
-@pytest.fixture
+#@pytest.fixture
 def book_data():
     '''Returns a BookDataset instance with clean data'''
     return BookDataset(clean_data=True)
+book_data = BookDataset(clean_data=True)
 
 @pytest.fixture
 def nmf():
     '''Returns an NMF instance'''
     return Matrix_Factorization(bookData=book_data())
+nmf = Matrix_Factorization(bookData=BookDataset(clean_data=True))
 
 @pytest.fixture
 def nmf_fit():
     '''Returns a fitted NMF instance'''
-    return Matrix_Factorization(bookData=book_data()).fit()
+    nmf_fit = Matrix_Factorization(bookData=book_data)
+    nmf_fit.fit()
+    return nmf_fit
+nmf_fit = Matrix_Factorization(bookData=book_data)
+nmf_fit.fit()
 
 @pytest.fixture
-def isbn_correct():
-    '''Returns a string of an ISBN in the dataset with more than 10 reviews'''
+def user_correct():
+    '''Returns a user in the dataset with more than 200 reviews'''
     return '0451202856'
+user_correct = 16795
 
 @pytest.fixture
-def isbn_incorrect():
-    '''Returns a string of an ISBN in the dataset with less than 10 reviews'''
-    return '0609804618'
+def user_incorrect():
+    '''Returns a user in the dataset with less than 10 reviews'''
+    return '1'
+user_incorrect = 1
 
 
-def test_nmf_filtered(nmf):
-    assert min(nmf.data['User-ID'].value_counts()) >= 200
+def test_nmf_filtered():
     assert min(nmf.data['ISBN'].value_counts()) >= 10
 
-def test_nmf_fit_attributes_exist(nmf_fit):
-    assert nmf_fit.data_pivot != None
-    assert nmf_fit.model != None
+def test_nmf_fit_attributes_exist():
+    assert nmf_fit.model() != None
+    assert nmf_fit.nmf_X() != None
 
-def test_predict_does_not_raise_error(nmf_fit, isbn_correct):
+
+def test_predict_does_not_raise_error():
     try:
-        nmf_fit.predict(isbn_correct, 5)
+        nmf_fit.predict(user_correct, 5)
     except KeyError as exc:
-        assert False, f"ISBN '0451202856' raised an exception {exc}"
+        assert False, f"User '16795' raised an exception {exc}"
         
-def test_predict_raises_error(nmf_fit, isbn_incorrect):
+def test_predict_raises_error(nmf_fit, user_incorrect):
     with pytest.raises(KeyError):
-        nmf_fit.predict(isbn_incorrect, 5)
+        nmf_fit.predict(int(user_incorrect), 5)
 
-def test_predict_num_recs(nmf_fit, isbn_correct):
-    assert len(nmf_fit.predict(isbn_correct, 5)) == 5
-    assert len(nmf_fit.predict(isbn_correct, 10)) == 10
-    assert len(nmf_fit.predict(isbn_correct, 2)) == 2
-    assert len(nmf_fit.predict(isbn_correct, 50)) == 50
+def test_predict_num_recs(nmf_fit, user_correct):
+    assert len(nmf_fit.predict(user_correct, 5)) == 5
+    assert len(nmf_fit.predict(user_correct, 10)) == 10
+    assert len(nmf_fit.predict(user_correct, 2)) == 2
+    assert len(nmf_fit.predict(user_correct, 50)) == 50
         

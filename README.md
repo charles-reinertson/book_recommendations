@@ -35,40 +35,42 @@ setuptools >= 60.5.0\
 scipy >= 1.7.3\
 scikit-learn >= 1.0.2
 ## Structure
-This package has the following structure.\
-book_recommendations\
-  |- bin\
+This package has the following structure.
+```
+book_recommendations/
+  |- bin/
      |- _mypath.py
-     |- main.py\
-  |- book_recs/\
-     |- test\
-       |- _mypath.py\
-       |- test_knn.py\
-       |- test_matrix_factorization.py\
-       |- test_process_data.py\
-       |- test_system.py\
-       |- test_utils.py\
-     |- __init__.py\
-     |- process_data.py\
-     |- recommender.py\
-     |- system.py\
-     |- utils.py\
-  |- data/\
-     |- Books.csv\
-     |- Ratings.csv\
-     |- Users.csv\
-  |- docs/\
-     |- Design_Specification.md\
-     |- Final_Presentation.pdf\
-     |- Functional_Specification.md\
-  |- new_data/\
-     |- Books.csv\
-     |- Ratings.csv\
-     |- Users.csv\
-  |- README.md\
-  |- config.json\
-  |- setup.py\
- 
+     |- main.py
+  |- book_recs/
+     |- test
+       |- _mypath.py
+       |- test_knn.py
+       |- test_matrix_factorization.py
+       |- test_process_data.py
+       |- test_system.py
+       |- test_utils.py
+     |- __init__.py
+     |- process_data.py
+     |- recommender.py
+     |- system.py
+     |- utils.py
+  |- data/
+     |- Books.csv
+     |- Ratings.csv
+     |- Users.csv
+  |- docs/
+     |- Design_Specification.md
+     |- Final_Presentation.pdf
+     |- Functional_Specification.md
+  |- new_data/
+     |- Books.csv
+     |- Ratings.csv
+     |- Users.csv
+  |- README.md
+  |- config.json
+  |- setup.py
+
+```
 ## Installation
 pip install betas
 ## Usage
