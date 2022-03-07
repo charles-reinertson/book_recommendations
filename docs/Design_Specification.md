@@ -1,5 +1,6 @@
 # Design Specifications
 
+!(https://github.com/charles-reinertson/book_recommendations/blob/main/docs/design_specification.png)
 
 ## Users
 This package is mainly geared towards non-native users, such as web developers. Therefore, ease of inference and implementation is a key aspect of consideration. Flexibility is also significant, as the intended user base may be quite diverse. This package supports these user motivations and requirements by providing insightful recommendations while being transparent and explainable so that the recommendation generating process is easy to understand. The interfaces, annotations, wrapper classes and intuitive implementations of KNN and Matrix Factorization are consistent with these requirements. It can be used from a single or multiple devices. 
