@@ -16,7 +16,7 @@ setup(
         packages=find_packages(),
         # add any additional packages that 
         # needs to be installed along with your package
-        install_requires=['numpy', 'pandas', 'sklearn', 'setuptools', 'pytest', 'pytest-cov', 'scipy'], 
+        install_requires=['numpy', 'pandas', 'sklearn', 'setuptools', 'pytest', 'pytest-cov', 'PyYAML', 'scipy'], 
         
         keywords=['python', 'book recommendation dataset'],
 )
