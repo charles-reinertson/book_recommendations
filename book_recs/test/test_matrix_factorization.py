@@ -48,10 +48,12 @@ def test_nmf_fit_attributes_exist():
 
 
 def test_predict_does_not_raise_error():
-    try:
-        nmf_fit.predict(user_correct, 5)
-    except KeyError as exc:
-        assert False, f"User '16795' raised an exception {exc}"
+    # try:
+    #     nmf_fit.predict(user_correct, 5)
+    # except KeyError as exc:
+    #     assert False, f"User '16795' raised an exception {exc}"
+    df = nmf_fit.predict(user_correct, 5)
+    assert df.shape[0] == 5
         
 def test_predict_raises_error():
     with pytest.raises(KeyError):

@@ -45,10 +45,12 @@ def test_knn_fit_attributes_exist():
     assert knn_fit.model != None
 
 def test_predict_does_not_raise_error():
-    try:
-        knn_fit.predict(isbn_correct, 5)
-    except KeyError as exc:
-        assert False, f"ISBN '0451202856' raised an exception {exc}"
+    # try:
+    #     knn_fit.predict(isbn_correct, 5)
+    # except KeyError as exc:
+    #     assert False, f"ISBN '0451202856' raised an exception {exc}"
+    df = knn_fit.predict(isbn_correct, 5)
+    assert df.shape[0] == 5
         
 def test_predict_raises_error():
     with pytest.raises(KeyError):
