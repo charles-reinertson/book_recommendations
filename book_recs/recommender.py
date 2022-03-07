@@ -42,7 +42,7 @@ class KNN(System):
         """
         bookData: BookDataset object (gets changed to a dataframe object)
         """
-        super().__init__(bookData)
+        super(KNN, self).__init__(bookData)
 
         self.data_pivot = None
         self.model = None
@@ -90,7 +90,7 @@ class Matrix_Factorization(System):
         None.
 
         """
-        super().__init__(bookData)
+        super(Matrix_Factorization, self).__init__(bookData)
 
         self.model = None
         self.nmf_X = None
