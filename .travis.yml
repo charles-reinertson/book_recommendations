@@ -23,11 +23,11 @@ install:
 
 # a list of commands to run before the main script
 before_script:
-    - "flake8 codebase"
+    - "flake8 book_recs"
 
 # the actual commands to run
 script:
-    - coverage run -m pytest discover
+    - coverage run -m pytest
 
 # generate a coverage report to send to back to user
 after_success:
