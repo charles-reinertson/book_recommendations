@@ -33,6 +33,9 @@ def test_bookdataset_clean(book_data_clean, book_data_unclean):
     assert count_errors == 0
 
 def test_bookdataset_unclean(book_data_unclean):
+    # drop incorrect year of publication in df_books
+    book_data_unclean.df = book_data_unclean.df[book_data_unclean.df['Year-Of-Publication'] != 'Gallimard']
+    book_data_unclean.df = book_data_unclean.df[book_data_unclean.df['Year-Of-Publication'] != 'DK Publishing Inc']
     book_data_unclean.df["Year-Of-Publication"] = pd.to_numeric(book_data_unclean.df["Year-Of-Publication"])
     count_errors = book_data_unclean.df.loc[(book_data_unclean.df["Year-Of-Publication"] < 1900)].shape[0]
     assert count_errors > 0

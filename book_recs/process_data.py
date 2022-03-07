@@ -84,10 +84,6 @@ class BookDataset():
         df = pd.merge(df, df_users, how="inner", on=["User-ID"])
         df.reset_index(drop=True, inplace=True)
 
-        # drop incorrect year of publication in df_books
-        df = df[df['Year-Of-Publication'] != 'Gallimard']
-        df = df[df['Year-Of-Publication'] != 'DK Publishing Inc']
-
         return df
 
     def append_data(self, clean_data=True):
