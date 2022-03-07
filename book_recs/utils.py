@@ -1,5 +1,4 @@
 
-
 def config(attr):
     """
     Retrieves the queried attribute value from the config file. Loads the
