@@ -87,3 +87,6 @@ Use the recommender system object to call the add_data function. The new data is
  If recommender_type='similar_user':  Use the recommender system object to call the function get_recommendations with an integer USER-ID as well as the number of recommendations to return to the user (between zero and max). This will return a pandas dataframe of similar books based on books like users have read.
 #### b)
 If recommender_type='similar_book':  Use the recommendation system object to call all the function get_recommendations with string ISBN as well as the number of recommendations to return to the user (between zero and max). This will return a pandas dataframe of similar books to the book corresponding to the ISBN passed into the function.
+
+
+[![Coverage Status](https://coveralls.io/repos/github/charles-reinertson/book_recommendations/badge.svg?branch=main)](https://coveralls.io/github/charles-reinertson/book_recommendations?branch=main)
