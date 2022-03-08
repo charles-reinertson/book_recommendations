@@ -1,4 +1,7 @@
 # BookRecs
+
+[![Coverage Status](https://coveralls.io/repos/github/charles-reinertson/book_recommendations/badge.svg?branch=main)](https://coveralls.io/github/charles-reinertson/book_recommendations?branch=main)
+
 ## Background
 Python package that allows users to easily clean and add data with predefined categories to a recommendation engine for books. Users can retrieve their recommendations based upon past books they have reviewed. The package will allow web developers to create a website for book recommendations. The package contains different configuration settings such as whether to auto-clean the data or recommend books based on similar users or similar books. The similar books model uses the K-Nearest Neighbor algorithm whereas the similar users specification uses the Matrix Factorization algorithm. 
 ## Team Members
@@ -87,6 +90,3 @@ Use the recommender system object to call the add_data function. The new data is
  If recommender_type='similar_user':  Use the recommender system object to call the function get_recommendations with an integer USER-ID as well as the number of recommendations to return to the user (between zero and max). This will return a pandas dataframe of similar books based on books like users have read.
 #### b)
 If recommender_type='similar_book':  Use the recommendation system object to call all the function get_recommendations with string ISBN as well as the number of recommendations to return to the user (between zero and max). This will return a pandas dataframe of similar books to the book corresponding to the ISBN passed into the function.
-
-
-[![Coverage Status](https://coveralls.io/repos/github/charles-reinertson/book_recommendations/badge.svg?branch=main)](https://coveralls.io/github/charles-reinertson/book_recommendations?branch=main)
