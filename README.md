@@ -11,9 +11,9 @@ Rebecca Klein\
 Urmika Kasi
 
 ## Data
-[Books Kaggle Dataset](https://www.kaggle.com/rounakbanik/the-movies-dataset?select=movies_metadata.csv)\
-Features selected from the dataset:\
-### Books.csv\
+[Books Kaggle Dataset](https://www.kaggle.com/rounakbanik/the-movies-dataset?select=movies_metadata.csv)
+### Features selected from the dataset:
+#### Books.csv
 ISBN: Books are identified by their respective ISBN\
 Book-Title: The title of the book\
 Book-Author: The author of the book\
@@ -21,19 +21,19 @@ Year-Of-Publication: The year of publication of the book\
 Publisher: The publisher of the book\
 Image-URL-S: URLs linking to cover images small size\
 Image-URL-M: URLs linking to cover images medium size\
-Image-URL-L: URLs linking to cover images large size\
-### Ratings.csv\
-Book-Rating: The rating of the book expressed on a scale from 1-10 (higher values denoting higher appreciation), or implicit, expressed by 0.\
+Image-URL-L: URLs linking to cover images large size
+#### Ratings.csv
+Book-Rating: The rating of the book expressed on a scale from 1-10 (higher values denoting higher appreciation), or implicit, expressed by 0\
 USER-ID: ID of user who wrote the rating\
-ISBN: Books are identified by their respective ISBN\
-### Users.csv\
+ISBN: Books are identified by their respective ISBN
+#### Users.csv
 Location: location of the user\
-Age: age of the user\
+Age: age of the user
 
-## Software\
-### Programming Languages\
-Python\
-### Python Packages\
+## Software
+### Programming Languages
+Python
+### Python Packages
 numpy >= 1.22.0\
 pandas >= 1.3.5\
 pytest >= 7.0.1\
