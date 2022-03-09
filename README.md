@@ -79,7 +79,7 @@ book_recommendations/
 
 ```
 ## Installation
-pip install betas
+*pip install betas* - need to update
 
 ## Usage
 ### STEP 1:
