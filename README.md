@@ -4,14 +4,16 @@
 
 ## Background
 Python package that allows users to easily clean and add data with predefined categories to a recommendation engine for books. Users can retrieve their recommendations based upon past books they have reviewed. The package will allow web developers to create a website for book recommendations. The package contains different configuration settings such as whether to auto-clean the data or recommend books based on similar users or similar books. The similar books model uses the K-Nearest Neighbor algorithm whereas the similar users specification uses the Matrix Factorization algorithm. 
+
 ## Team Members
 Charles Reinertson\
 Rebecca Klein\
 Urmika Kasi
+
 ## Data
 [Books Kaggle Dataset](https://www.kaggle.com/rounakbanik/the-movies-dataset?select=movies_metadata.csv)\
 Features selected from the dataset:\
-Books.csv\
+### Books.csv\
 ISBN: Books are identified by their respective ISBN\
 Book-Title: The title of the book\
 Book-Author: The author of the book\
@@ -20,23 +22,25 @@ Publisher: The publisher of the book\
 Image-URL-S: URLs linking to cover images small size\
 Image-URL-M: URLs linking to cover images medium size\
 Image-URL-L: URLs linking to cover images large size\
-Ratings.csv\
+### Ratings.csv\
 Book-Rating: The rating of the book expressed on a scale from 1-10 (higher values denoting higher appreciation), or implicit, expressed by 0.\
 USER-ID: ID of user who wrote the rating\
 ISBN: Books are identified by their respective ISBN\
-Users.csv\
+### Users.csv\
 Location: location of the user\
 Age: age of the user\
-Software\
-Programming Languages\
+
+## Software\
+### Programming Languages\
 Python\
-Python Packages\
+### Python Packages\
 numpy >= 1.22.0\
 pandas >= 1.3.5\
 pytest >= 7.0.1\
 setuptools >= 60.5.0\
 scipy >= 1.7.3\
 scikit-learn >= 1.0.2
+
 ## Structure
 This package has the following structure.
 ```
@@ -76,6 +80,7 @@ book_recommendations/
 ```
 ## Installation
 pip install betas
+
 ## Usage
 ### STEP 1:
 From the book_recs library import the RSystem class
