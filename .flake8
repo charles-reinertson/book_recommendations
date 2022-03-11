@@ -1,2 +1,3 @@
 [flake8]
-per-file-ignores = main.py:F401
+per-file-ignores = main.py:F401 process_data:F401 recommender.py:F401 system.py:F401 utils.py:F401
+max-line-length = 200
