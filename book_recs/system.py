@@ -3,6 +3,7 @@ from recommender import KNN, Matrix_Factorization
 from utils import config
 import copy
 
+
 class RSystem(object):
     def __init__(self, clean_data=True, recommender_type='similar_book'):
         """
@@ -10,7 +11,7 @@ class RSystem(object):
 
         clean_data: flag for whether the user wants us to clean his data for him or if it
                     is pre-cleaned
-        recommender_type: if similar_book then get book recommendations based on a provided similar book. 
+        recommender_type: if similar_book then get book recommendations based on a provided similar book.
                           If similar_user then get book recommendations based on similar users.
         """
         assert(recommender_type == 'similar_book' or recommender_type == 'similar_user')
@@ -21,8 +22,6 @@ class RSystem(object):
         # train our model and return the specified recommender system object
         self.system = None
         self._train_system()
-
-
 
     def add_data(self, clean_data=True):
         """
@@ -42,7 +41,7 @@ class RSystem(object):
         predictions = self.system.predict(user_input, num_recommendations)
 
         return predictions[:10]
-    
+
     def _train_system(self):
         """
         Train our data on either KNN or Matrix factorization recommender system.
@@ -51,7 +50,5 @@ class RSystem(object):
             self.system = KNN(self.data_object)
         else:
             self.system = Matrix_Factorization(self.data_object)
-        
+
         self.system.fit()
-
-

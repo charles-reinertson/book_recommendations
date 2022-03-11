@@ -9,7 +9,9 @@ from sklearn.neighbors import NearestNeighbors
 from sklearn.decomposition import TruncatedSVD, NMF
 import warnings
 
+
 class System(object):
+
     def __init__(self, bookData):
         self.data = bookData
         self._filter_data()
@@ -22,10 +24,9 @@ class System(object):
         "Interface for predicting from the recommender system"
         pass
 
-
     def _filter_data(self):
         """
-        Filter the data to only include users who have rated at least 200 books 
+        Filter the data to only include users who have rated at least 200 books
         and books that have at least 10 ratings.
         """
         cols = ['Book-Rating', 'ISBN', 'Book-Title', 'Book-Author', 'Year-Of-Publication', 'User-ID']
@@ -37,7 +38,9 @@ class System(object):
         books_filt = books[books].index
         self.data = self.data[self.data['ISBN'].isin(books_filt)]
 
+
 class KNN(System):
+
     def __init__(self, bookData):
         """
         bookData: BookDataset object (gets changed to a dataframe object)
@@ -46,7 +49,7 @@ class KNN(System):
 
         self.data_pivot = None
         self.model = None
-        
+
     def fit(self):
         """
         Fit the KNN model to the dataset.
@@ -56,14 +59,14 @@ class KNN(System):
         book_sparse = csr_matrix(self.data_pivot)
         self.model = NearestNeighbors(algorithm='brute')
         self.model.fit(book_sparse)
-    
+
     def predict(self, book, num_recommendations):
         """
         Get the book recommendations based on a provided book.
 
         book: String of the ISBN of the book to base recommendations on
         num_recommendations: Number of recommended book to return (not implemented)
-        
+
         recommend: Dataframe of recommended book titles, ISBN, book author, and year of publication
         """
         distances, suggestions = self.model.kneighbors(self.data_pivot.loc[book, :].values.reshape(1, -1))
@@ -73,14 +76,14 @@ class KNN(System):
 
 
 class Matrix_Factorization(System):
-    
+
     def __init__(self, bookData):
         """
 
         Parameters
         ----------
         bookData : TYPE
-        
+
         Description
         ----------
         Initialize with bookDataset object.
@@ -94,8 +97,8 @@ class Matrix_Factorization(System):
 
         self.model = None
         self.nmf_X = None
-        self.user_id_to_num_dict = {}        
-        
+        self.user_id_to_num_dict = {}
+
     def fit(self):
         """
         Description
@@ -107,74 +110,61 @@ class Matrix_Factorization(System):
         None.
 
         """
-        df_mat = self.data.sample(frac = 0.3)
+        df_mat = self.data.sample(frac=0.3)
         # df_mat= df_mat.drop(columns= ['Image-URL-S', 'Image-URL-M', 'Image-URL-L', 'Location'])
         # df_mat = df_mat.dropna(axis = 0, subset = ['Book-Title'])
         df_mat_ratingCount = (df_mat.
-             groupby(by = ['Book-Title'])['Book-Rating'].
-             count().
-             reset_index().
-             rename(columns = {'Book-Rating': 'totalRatingCount'})
-             [['Book-Title', 'totalRatingCount']]
-            )
-        rating_mat_totalRatingCount = df_mat.merge(df_mat_ratingCount, left_on = 'Book-Title', right_on = 'Book-Title', how = 'left')
-        user_rating = rating_mat_totalRatingCount.drop_duplicates(['User-ID','Book-Title'])
-        book_user_rating_pivot = user_rating.pivot(index = 'User-ID', columns = 'Book-Title', values = 'Book-Rating').fillna(0)
-        
+                              groupby(by=['Book-Title'])['Book-Rating'].
+                              count().
+                              reset_index().
+                              rename(columns={'Book-Rating': 'totalRatingCount'})
+                              [['Book-Title', 'totalRatingCount']]
+                              )
+        rating_mat_totalRatingCount = df_mat.merge(df_mat_ratingCount, left_on='Book-Title', right_on='Book-Title', how='left')
+        user_rating = rating_mat_totalRatingCount.drop_duplicates(['User-ID', 'Book-Title'])
+        book_user_rating_pivot = user_rating.pivot(index='User-ID', columns='Book-Title', values='Book-Rating').fillna(0)
+
         user_id_list = list(book_user_rating_pivot.index)
         user_id_to_num_dict = {}
-        for i,item in enumerate(user_id_list):
-            user_id_to_num_dict[item]= i
+        for i, item in enumerate(user_id_list):
+            user_id_to_num_dict[item] = i
         self.user_id_to_num_dict = user_id_to_num_dict
         X = book_user_rating_pivot.values
         # SVD = TruncatedSVD(n_components=12, random_state=17)
         # matrix = SVD.fit_transform(X)
         nmf_model = NMF(n_components=20)
         self.model = nmf_model
-        self.nmf_X = X 
+        self.nmf_X = X
         self.model.fit(self.nmf_X)
-        
+
     def predict(self, user_idx, num_recommendations):
         """
-        
-
         Parameters
         ----------
         user_idx : int
             Input User-ID to get recommendations.
         num_recommendations : int
             Number of recommendations returned to the user.
-            
+
         Description
         ----------
         Predict recommendations for a user.
-        
+
         Returns
         -------
         bookrecs: list
             List of generated recommendations.
 
         """
-        Theta = self.model.transform(self.nmf_X)       
-        M = self.model.components_.T         
-        X_pred = M.dot(Theta.T)             
+        Theta = self.model.transform(self.nmf_X)
+        M = self.model.components_.T
+        X_pred = M.dot(Theta.T)
         X_pred = X_pred.T
-        
-        rated_items_df_user = pd.DataFrame(self.nmf_X).iloc[self.user_id_to_num_dict[user_idx],:]                
-        user_prediction_df_user = pd.DataFrame(X_pred).iloc[self.user_id_to_num_dict[user_idx],:]    
-        reco_df = pd.concat([rated_items_df_user, user_prediction_df_user, pd.DataFrame(self.data['Book-Title'])], axis=1)  
+        rated_items_df_user = pd.DataFrame(self.nmf_X).iloc[self.user_id_to_num_dict[user_idx], :]
+        user_prediction_df_user = pd.DataFrame(X_pred).iloc[self.user_id_to_num_dict[user_idx], :]
+        reco_df = pd.concat([rated_items_df_user, user_prediction_df_user, pd.DataFrame(self.data['Book-Title'])], axis=1)
         reco_df = reco_df.dropna()
-        reco_df.columns = ['rating','prediction','title']
-        reco_df = reco_df[ reco_df['rating'] == 0 ]
-        res= reco_df.sort_values(by='prediction', ascending=False)[:num_recommendations]
+        reco_df.columns = ['rating', 'prediction', 'title']
+        reco_df = reco_df[reco_df['rating'] == 0]
+        res = reco_df.sort_values(by='prediction', ascending=False)[:num_recommendations]
         return self.data[self.data['Book-Title'].isin(list(res['title']))].loc[:, ['ISBN', 'Book-Title', 'Book-Author', 'Year-Of-Publication']].drop_duplicates(subset=['Book-Title'])
-
-
-        
-        
-        
-        
-        
-        
-
-    
