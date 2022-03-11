@@ -11,4 +11,3 @@ if libdir not in sys.path:
     sys.path.insert(0, libdir + 'book_recs/')
 
 os.chdir(libdir)
-
