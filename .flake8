@@ -1,5 +1,5 @@
 [flake8]
 per-file-ignores = main.py:F401 process_data:F401 recommender.py:F401 system.py:F401 utils.py:F401 test_knn.py:F811, F401
-                   test_matrix_factorization.py:F811, F401 test_process_data.py:F401 test_system.py:F401 test_utils.py:F401
+                   test_matrix_factorization.py:F811, F401 test_process_data.py:F401 test_system.py:F401 test_utils.py:F401 __init__.py:F401
 
 max-line-length = 200
