@@ -66,9 +66,15 @@ book_recommendations/
      |- Ratings.csv
      |- Users.csv
   |- docs/
+     |- BookRecs.pdf
      |- Design_Specification.md
      |- Final_Presentation.pdf
      |- Functional_Specification.md
+     |- component_interaction.drawio.png
+     |- design_specification.png
+  |- example
+     |- Demo.ipynb
+     |- _mypath.py
   |- new_data/
      |- Books.csv
      |- Ratings.csv
@@ -79,7 +85,7 @@ book_recommendations/
 
 ```
 ## Installation
-*pip install betas* - need to update
+git clone https://github.com/charles-reinertson/book_recommendations.git
 
 ## Usage
 ### STEP 1:
